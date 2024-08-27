@@ -15,7 +15,6 @@ export default function NavLink({
   label,
 }: Props) {
   const pathname = usePathname();
-  console.log("pathname::: ", pathname);
   return (
     <NavbarItem
       isActive={pathname === href}
