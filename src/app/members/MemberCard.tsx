@@ -1,3 +1,5 @@
+"use client";
+import LikeButton from "@/components/LikeButton";
 import { calculateAge } from "@/lib/util";
 import {
   Card,
@@ -10,11 +12,23 @@ import React from "react";
 
 type Props = {
   member: Member;
+  likeIds: string[];
 };
 
 export default function MemberCard({
   member,
+  likeIds,
 }: Props) {
+  const hasLiked = likeIds.includes(
+    member.userId
+  );
+
+  const preventLinkAction = (
+    e: React.MouseEvent
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
   return (
     <Card
       fullWidth
@@ -29,6 +43,14 @@ export default function MemberCard({
         src={member.image || "/images/user.png"}
         className="aspect-square object-cover"
       />
+      <div onClick={preventLinkAction}>
+        <div className="absolute top-3 right-3 z-50">
+          <LikeButton
+            targetId={member.userId}
+            hasLiked={hasLiked}
+          />
+        </div>
+      </div>
       <CardFooter className="flex justify-start bg-black overflow-hidden absolute bottom-0 z-10 bg-dark-gradient">
         <div className="flex flex-col text-white">
           <span className="font-semibold">
