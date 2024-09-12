@@ -1,11 +1,8 @@
 "use client";
 
 import { registerUser } from "@/app/actions/authActions";
-import {
-  RegisterSchema,
-  registerSchema,
-} from "@/lib/schemas/RegisterSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterSchema } from "@/lib/schemas/RegisterSchema";
+import { handleFormServerErrors } from "@/lib/util";
 import {
   Card,
   CardHeader,
@@ -36,22 +33,7 @@ export default function RegisterForm() {
     if (result.status === "success") {
       console.log("User registered successfully");
     } else {
-      if (Array.isArray(result.error)) {
-        result.error.forEach((e: any) => {
-          console.log("e::: ", e);
-          const fieldName = e.path.join(".") as
-            | "email"
-            | "name"
-            | "password";
-          setError(fieldName, {
-            message: e.message,
-          });
-        });
-      } else {
-        setError("root.serverError", {
-          message: result.error,
-        });
-      }
+      handleFormServerErrors(result, setError);
     }
   };
 
