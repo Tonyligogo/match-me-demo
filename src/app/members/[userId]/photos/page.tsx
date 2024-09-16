@@ -1,10 +1,6 @@
 import { getMemberPhotosByUserId } from "@/app/actions/memberActions";
-import {
-  CardHeader,
-  Divider,
-  CardBody,
-  Image,
-} from "@nextui-org/react";
+import CardInnerWrapper from "@/components/CardInnerWrapper";
+import { Image } from "@nextui-org/react";
 import React from "react";
 
 export default async function PhotosPage({
@@ -16,12 +12,9 @@ export default async function PhotosPage({
     params.userId
   );
   return (
-    <>
-      <CardHeader className="text-2xl font-semibold text-default">
-        Photos
-      </CardHeader>
-      <Divider />
-      <CardBody>
+    <CardInnerWrapper
+      header="Photos"
+      body={
         <div className="grid grid-cols-5 gap-3">
           {photos &&
             photos.map((photo) => (
@@ -34,7 +27,7 @@ export default async function PhotosPage({
               </div>
             ))}
         </div>
-      </CardBody>
-    </>
+      }
+    />
   );
 }
