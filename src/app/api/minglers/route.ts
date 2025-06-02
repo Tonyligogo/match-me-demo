@@ -1,9 +1,9 @@
-import { getAuthUserId } from '@/app/actions/authActions';
+import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
-import { InfiniteScrollResponse } from '@/types';
-import { Member } from '@prisma/client';
 import { addYears } from 'date-fns';
 import { NextResponse, NextRequest } from 'next/server';
+
+export const dynamic = 'force-dynamic'; // This route should not be cached
 
 function getAgeRange(ageRange: string): Date[] {
     const [minAge, maxAge] = ageRange.split(',');
@@ -51,11 +51,12 @@ export async function GET(request: NextRequest) {
     const ageRange = searchParams.get('ageRange') || '18,100';
     const gender = searchParams.get('gender') || 'male,female';
     const withPhoto = searchParams.get('withPhoto') || 'true';
-    const zodiacSign = searchParams.get('zodiacSign') as ZodiacSign | undefined; // Cast to your ZodiacSign type if applicable
+    const zodiacSign = searchParams.get('zodiacSign') as ZodiacSign | undefined;
 
     const pageSize = 10;
 
-    const userId = await getAuthUserId();
+    const session = await auth();
+    const userId = session?.user?.id
     if (!userId) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
