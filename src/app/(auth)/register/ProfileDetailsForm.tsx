@@ -28,6 +28,7 @@ export default function ProfileDetailsForm() {
 
   return (
     <div className="space-y-4">
+      <p className="text-primaryBlue font-semibold text-xl">Personal Details</p>
       <Select
         defaultSelectedKeys={getValues("zodiac")}
         label="Zodiac sign"

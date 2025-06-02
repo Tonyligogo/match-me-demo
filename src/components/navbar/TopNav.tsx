@@ -51,6 +51,9 @@ export default async function TopNav() {
             "text-white",
             "data-[active=true]:underline underline-primaryPurple ",
           ],
+          wrapper:[
+            "px-4"
+          ],
         }}
       >
         <NavbarBrand as={Link} href="/">
@@ -76,7 +79,7 @@ export default async function TopNav() {
         </NavbarContent>
         <NavbarContent justify="end">
           {userInfo ? (
-            <UserMenu userInfo={userInfo} />
+            <UserMenu userInfo={userInfo} userId={session.user?.id || null} />
           ) : (
             <>
               <Button
@@ -86,14 +89,6 @@ export default async function TopNav() {
                 className="text-white"
               >
                 Login
-              </Button>
-              <Button
-                as={Link}
-                href="/register"
-                variant="bordered"
-                className="text-white"
-              >
-                Register
               </Button>
             </>
           )}

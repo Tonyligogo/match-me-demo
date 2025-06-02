@@ -30,15 +30,15 @@ export default async function RootLayout({
           userId={userId}
         >
           <ReactQueryProvider>
-          <main className="flex relative flex-col h-[100svh]">
-            <nav className="h-[60px]">
+          <main className="flex flex-col h-[100svh]">
+            <nav className="h-[60px] fixed w-full z-50 flex-shrink-0">
           <TopNav />
             </nav>
-          <div className="h-[calc(100svh-60px)] bg-[#f8faff] pb-[80px]">
+          <div className="flex-grow relative bg-[#f8faff] pt-[60px] pb-[80px] md:pb-0">
             {children}
-          </div>
-          <div className="absolute bottom-0 left-0 right-0 flex justify-around items-center ">
+          <div className="fixed z-50 bottom-0 left-0 right-0 md:hidden">
             <BottomNav/>
+          </div>
           </div>
           </main>
           </ReactQueryProvider>

@@ -30,10 +30,22 @@ export default async function BottomNav() {
             "text-primaryBlue",
             "data-[active=true]:text-pink-500 ",
           ],
+          wrapper:[
+            "px-4",
+            "justify-between"
+          ],
+          content:[
+            "w-full",
+            "justify-center justify-between",
+          ],
+          menu:[
+            "w-full",
+            "justify-center justify-between"
+          ]
         }}
       >
        
-        <NavbarContent className="flex justify-evenly w-full" justify="center">
+        <NavbarContent className="w-full"  data-justify="between">
           {session &&
             memberLinks.map((item) => (
               <NavLink

@@ -17,10 +17,12 @@ type Props = {
     name: string | null;
     image: string | null;
   } | null;
+  userId: string | null;
 };
 
 export default function UserMenu({
   userInfo,
+  userId
 }: Props) {
   return (
     <Dropdown placement="bottom-end">
@@ -51,6 +53,12 @@ export default function UserMenu({
             Signed in as {userInfo?.name}
           </DropdownItem>
         </DropdownSection>
+        <DropdownItem
+          as={Link}
+          href={`/members/${userId}`}
+        >
+          View profile
+        </DropdownItem>
         <DropdownItem
           as={Link}
           href="/members/edit"

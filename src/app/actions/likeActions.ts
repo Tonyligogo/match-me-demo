@@ -67,6 +67,25 @@ export async function fetchCurrentUserLikeIds() {
     }
 }
 
+export async function fetchServerCurrentUserLikeIds(userId: string) {
+    try {
+
+        const likeIds = await prisma.like.findMany({
+            where: {
+                sourceUserId: userId
+            },
+            select: {
+                targetUserId: true
+            }
+        })
+
+        return likeIds.map(like => like.targetUserId);
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
 export async function fetchLikedMembers(type = 'source') {
     try {
         const userId = await getAuthUserId();
@@ -104,7 +123,6 @@ async function fetchTargetLikes(userId: string) {
 }
 
 export async function fetchMutualLikes(userId: string) {
-    console.log('fetchMutualLikes called with userId:', userId);
     const likedUsers = await prisma.like.findMany({
         where: { sourceUserId: userId },
         select: { targetUserId: true }
@@ -121,4 +139,33 @@ export async function fetchMutualLikes(userId: string) {
         select: { sourceMember: true }
     });
     return mutualList.map(x => x.sourceMember);
+}
+
+// fetching non-mutual likes (you have not liked back). These act as suggestions
+export async function fetchUnreciprocatedLikes(userId: string) {
+    // 1. Get IDs of all users whom the current user (userId) has liked.
+    // This is the same as your first query for mutual likes.
+    const usersLikedByMe = await prisma.like.findMany({
+        where: { sourceUserId: userId },
+        select: { targetUserId: true }
+    });
+    const likedByMeIds = usersLikedByMe.map(x => x.targetUserId);
+
+    // 2. Find likes where the current user (userId) is the target (i.e., someone liked me).
+    // We also need to include the sourceUser (the person who liked me).
+    const likedMeList = await prisma.like.findMany({
+        where: {
+            targetUserId: userId
+        },
+        select: { sourceUserId: true, sourceMember: true }
+    });
+
+    // 3. Filter out those whom the current user has already liked back.
+    // We iterate through the people who liked me and keep only those whose IDs
+    // are NOT in the 'likedByMeIds' list.
+    const unreciprocatedLikes = likedMeList.filter(likedMe =>
+        !likedByMeIds.includes(likedMe.sourceUserId)
+    );
+
+    return unreciprocatedLikes.map(x => x.sourceMember);
 }

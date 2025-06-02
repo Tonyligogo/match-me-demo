@@ -3,7 +3,7 @@ import RegisterForm from "./RegisterForm";
 
 export default function RegisterPage() {
   return (
-    <div className="flex items-center justify-center vertical-center">
+    <div className="p-6 md:p-10 mt-10">
       <RegisterForm />
     </div>
   );

@@ -51,11 +51,12 @@ export default function ListsTab({
   }
 
   return (
-    <div className="flex w-full flex-col px-4 mt-5 gap-5">
+    <div className="flex w-full flex-col overflow-auto mt-5 gap-5">
       <Tabs
         aria-label="Like tabs"
         items={tabs}
         color="secondary"
+        className="px-4"
         onSelectionChange={(key) =>
           handleTabChange(key)
         }
@@ -66,21 +67,21 @@ export default function ListsTab({
               <Loading />
             ) : (
               <>
+              <div className="px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-8">
                 {members.length > 0 ? (
-                  <div className="px-4 grid h-[380px] md:h-[295px] grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
-                    {members.map((member) => (
+                    members.map((member) => (
                       <MemberCard
                         key={member.id}
                         member={member}
                         likeIds={likeIds}
                       />
-                    ))}
-                  </div>
+                    ))
                 ) : (
                   <div>
                     No members for this filter
                   </div>
                 )}
+                </div>
               </>
             )}
           </Tab>
