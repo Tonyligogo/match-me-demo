@@ -1,5 +1,4 @@
 import { Button } from "@nextui-org/react";
-import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
 
@@ -9,16 +8,11 @@ export default function SocialLogin() {
       name: "google",
       icon: <FcGoogle size={20} />,
       text: "Google",
-    },
-    {
-      name: "github",
-      icon: <FaGithub size={20} />,
-      text: "GitHub",
-    },
+    }
   ];
 
   const onClick = (
-    provider: "google" | "github"
+    provider: "google"
   ) => {
     signIn(provider, {
       callbackUrl: "/members",
@@ -30,16 +24,17 @@ export default function SocialLogin() {
       {providers.map((provider) => (
         <Button
           key={provider.name}
-          size="lg"
+          size="md"
           fullWidth
-          variant="bordered"
+          variant="ghost"
+          className="border"
           onClick={() =>
             onClick(
-              provider.name as "google" | "github"
+              provider.name as "google"
             )
           }
         >
-          {provider.icon}
+          {provider.icon} Login with Google
         </Button>
       ))}
     </div>

@@ -87,7 +87,7 @@ export default function MessageList({
     );
 
     return () => {
-      channel.unsubscribe();
+      pusherClient.unsubscribe(chatId);
       channel.unbind(
         "message:new",
         handleNewMessage

@@ -2,13 +2,9 @@
 
 import {
   Button,
-  Card,
-  CardBody,
-  CardHeader,
   Input,
 } from "@nextui-org/react";
-import React from "react";
-import { GiPadlock } from "react-icons/gi";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   loginSchema,
@@ -31,35 +27,30 @@ export default function LoginForm() {
     mode: "onTouched",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
 
   const onSubmit = async (data: LoginSchema) => {
+    setLoading(true);
     const result = await signInUser(data);
     if (result.status === "success") {
       router.push("/members");
-      router.refresh();
+      setLoading(false);
     } else {
       toast.error(result.error as string);
+      setLoading(false);
     }
   };
 
   return (
-    <Card className="w-3/5 mx-auto">
-      <CardHeader className="flex flex-col items-center justify-center">
-        <div className="flex flex-col gap-2 items-center text-default">
-          <div className="flex flex-row items-center gap-3">
-            <GiPadlock size={30} />
-            <h1 className="text-3xl font-semibold">
-              Login
-            </h1>
-          </div>
-          <p className="text-neutral-500">
-            Welcome back to MatchMe!
-          </p>
-        </div>
-      </CardHeader>
-      <CardBody>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+        <div className="flex flex-col items-center gap-2 text-center">
+        <h1 className="text-2xl font-bold">Sign in</h1>
+        <p className="text-balance text-sm text-muted-foreground">
+          Enter your email below to login to your account
+        </p>
+      </div>
           <div className="space-y-4">
             <Input
               defaultValue=""
@@ -82,23 +73,33 @@ export default function LoginForm() {
                 errors.password?.message as string
               }
             />
-            <Button
-              fullWidth
-              color="default"
-              type="submit"
-              isDisabled={!isValid}
-            >
-              Login
-            </Button>
-            <SocialLogin />
-            <div className="flex justify-center hover:underline text-sm">
+            <div className="flex justify-end hover:underline text-sm">
               <Link href="/forgot-password">
                 Forgot password?
               </Link>
             </div>
+            <Button
+              fullWidth
+              className="bg-primaryPurple text-white font-semibold text-lg"
+              type="submit"
+              isDisabled={!isValid || loading}
+              isLoading={loading}
+            >
+             {loading ? "" : "Login"}
+            </Button>
+            <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+          <span className="relative z-10 bg-background px-2 text-muted-foreground">
+            Or continue with
+          </span>
+        </div>
+            <SocialLogin />
+            <div className="text-center text-sm">
+        Don&apos;t have an account?{" "}
+        <Link href="/register" className="underline underline-offset-4">
+          Sign up
+        </Link>
+      </div>
           </div>
         </form>
-      </CardBody>
-    </Card>
   );
 }

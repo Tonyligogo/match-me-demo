@@ -21,9 +21,36 @@ export default function ProfileDetailsForm() {
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
   ];
+  const zodiacSigns = [
+    'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
+    'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
+  ];
 
   return (
     <div className="space-y-4">
+      <Select
+        defaultSelectedKeys={getValues("zodiac")}
+        label="Zodiac sign"
+        aria-label="Select your zodiac sign"
+        variant="bordered"
+        {...register("zodiac")}
+        isInvalid={!!errors.gender}
+        errorMessage={
+          errors.zodiac?.message as string
+        }
+        onChange={(e) =>
+          setValue("zodiac", e.target.value)
+        }
+      >
+        {zodiacSigns.map((item) => (
+          <SelectItem
+            key={item}
+            value={item}
+          >
+            {item}
+          </SelectItem>
+        ))}
+      </Select>
       <Select
         defaultSelectedKeys={getValues("gender")}
         label="Gender"
@@ -72,6 +99,7 @@ export default function ProfileDetailsForm() {
           errors.description?.message as string
         }
       />
+      <div className="grid grid-cols-2 gap-5">
       <Input
         defaultValue={getValues("city")}
         label="City"
@@ -92,6 +120,7 @@ export default function ProfileDetailsForm() {
           errors.country?.message as string
         }
       />
+      </div>
     </div>
   );
 }

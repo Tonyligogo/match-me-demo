@@ -16,7 +16,7 @@ type Props = {
   likeIds: string[];
 };
 
-export default function MemberCard({
+export default function SuggestionCard({
   member,
   likeIds,
 }: Props) {
@@ -37,9 +37,9 @@ export default function MemberCard({
       href={`/members/${member.userId}`}
       isPressable
     >
-      <img src={member.image || "/images/user.png"} alt={member.name} className="object-cover h-[380px] md:h-[295px] w-full" />
+      <img src={member.image || "/images/user.png"} alt={member.name} className="object-cover h-[170px] md:h-[190px] w-full" />
       <div onClick={preventLinkAction}>
-        <div className="absolute top-3 right-3 z-50">
+        <div className="absolute top-2 right-2 z-50">
           <LikeButton
             targetId={member.userId}
             hasLiked={hasLiked}
@@ -49,14 +49,10 @@ export default function MemberCard({
           <PresenceDot member={member} />
         </div>
       </div>
-      <CardFooter className="flex justify-start bg-black overflow-hidden absolute bottom-0 z-10 bg-pink-gradient">
+      <CardFooter className="flex justify-start bg-black overflow-hidden absolute bottom-0 z-10 bg-dark-gradient">
         <div className="flex flex-col text-white">
-          <span className="font-semibold">
-            {member.name},{" "}
-            {calculateAge(member.dateOfBirth)}
-          </span>
           <span className="text-sm">
-          {member.zodiac} | {member.city}
+          {calculateAge(member.dateOfBirth)} | {member.zodiac} | {member.city}
           </span>
         </div>
       </CardFooter>

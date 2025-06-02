@@ -43,6 +43,7 @@ model Member {
   id                String    @id @default(cuid())
   userId            String    @unique
   name              String
+  zodiac            String
   gender            String
   dateOfBirth       DateTime
   created           DateTime  @default(now())

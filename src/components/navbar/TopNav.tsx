@@ -12,22 +12,26 @@ import { auth } from "@/auth";
 import UserMenu from "./UserMenu";
 import { getUserInfoForNav } from "@/app/actions/userActions";
 import FiltersWrapper from "./FiltersWrapper";
+import { IoChatbubblesOutline, } from "react-icons/io5";
+import { BsHeartPulse } from "react-icons/bs";
+import { RiHeartsLine } from "react-icons/ri";
 
 export default async function TopNav() {
   const session = await auth();
-  const userInfo =
-    session?.user && (await getUserInfoForNav());
+  const userInfo = session?.user && (await getUserInfoForNav());
 
   const memberLinks = [
-    { href: "/members", label: "Matches" },
-    { href: "/lists", label: "Lists" },
-    { href: "/messages", label: "Messages" },
+    { href: "/my-profile", label: "Mingle", icon: <BsHeartPulse size={20}  /> },
+    { href: "/members", label: "My Stars", icon:<GiSelfLove size={20} /> },
+    { href: "/lists", label: "Activities", icon:<RiHeartsLine size={20} /> },
+    { href: "/messages", label: "Messages", icon:<IoChatbubblesOutline size={20} /> },
   ];
 
   const adminLinks = [
     {
       href: "/admin/moderation",
       label: "Photo Moderation",
+      icon:<GiSelfLove size={20} />
     },
   ];
 
@@ -35,38 +39,38 @@ export default async function TopNav() {
     session?.user.role === "ADMIN"
       ? adminLinks
       : memberLinks;
+
   return (
     <>
       <Navbar
         maxWidth="full"
-        className="bg-gradient-to-r from-pink-400 via-red-400 to-pink-600"
+        className="bg-gradient-to-r from-pink-400 via-pink-500 to-primaryPurple"
         classNames={{
           item: [
             "text-xl",
             "text-white",
-            "uppercase",
-            "data-[active=true]:text-yellow-200",
+            "data-[active=true]:underline underline-primaryPurple ",
           ],
         }}
       >
         <NavbarBrand as={Link} href="/">
           <GiSelfLove
-            size={40}
-            className="text-gray-200"
+            className="text-gray-200 size-8 sm:size-12"
           />
-          <div className="font-bold text-3xl flex">
+          <div className="font-bold text-2xl md:text-3xl flex">
             <span className="text-gray-200">
-              MatchMe
+              Starmingle
             </span>
           </div>
         </NavbarBrand>
-        <NavbarContent justify="center">
+        <NavbarContent justify="center" className="hidden md:flex">
           {session &&
             links.map((item) => (
               <NavLink
                 key={item.href}
                 href={item.href}
                 label={item.label}
+                icon={item.icon}
               />
             ))}
         </NavbarContent>

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Button,
   Select,
@@ -44,7 +43,7 @@ export default function Filters() {
         <div className="flex gap-2 items-center">
           <div>Gender:</div>
           {genderList.map(
-            ({ icon: Icon, value }) => (
+            ({ label, value }) => (
               <Button
                 key={value}
                 size="sm"
@@ -59,7 +58,7 @@ export default function Filters() {
                   selectGender(value)
                 }
               >
-                <Icon size={24} />
+                {label}
               </Button>
             )
           )}

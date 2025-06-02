@@ -42,6 +42,11 @@ type PaginatedResponse<T> = {
     items: T[];
     totalCount: number;
 }
+type InfiniteScrollResponse<T> = {
+    items: T[];
+    nextCursor: string | null;
+    totalCount: number;
+}
 
 type PagingParams = {
     pageNumber: number;
@@ -60,4 +65,5 @@ type GetMemberParams = {
     withPhoto?: string;
     pageNumber?: string;
     pageSize?: string;
+    zodiacSign?: string | null;
 }

@@ -10,7 +10,7 @@ import {
 import React, { useTransition } from "react";
 import { Key } from "react";
 import MemberCard from "../members/MemberCard";
-import LoadingComponent from "@/components/Loading";
+import Loading from "../loading";
 
 type Props = {
   members: Member[];
@@ -24,19 +24,18 @@ export default function ListsTab({
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const [isPending, startTransition] =
-    useTransition();
+  const [isPending, startTransition] = useTransition();
 
   const tabs = [
     {
       id: "source",
-      label: "Members I have liked",
+      label: "I like",
     },
     {
       id: "target",
-      label: "Members that like me",
+      label: "Likes me",
     },
-    { id: "mutual", label: "Mutual likes" },
+    { id: "mutual", label: "Potential" },
   ];
 
   function handleTabChange(key: Key) {
@@ -52,23 +51,23 @@ export default function ListsTab({
   }
 
   return (
-    <div className="flex w-full flex-col mt-10 gap-5">
+    <div className="flex w-full flex-col px-4 mt-5 gap-5">
       <Tabs
         aria-label="Like tabs"
         items={tabs}
-        color="default"
+        color="secondary"
         onSelectionChange={(key) =>
           handleTabChange(key)
         }
       >
         {(item) => (
-          <Tab key={item.id} title={item.label}>
+          <Tab key={item.id} style={{fontSize:'16px'}} title={item.label}>
             {isPending ? (
-              <LoadingComponent />
+              <Loading />
             ) : (
               <>
                 {members.length > 0 ? (
-                  <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-8">
+                  <div className="px-4 grid h-[380px] md:h-[295px] grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
                     {members.map((member) => (
                       <MemberCard
                         key={member.id}

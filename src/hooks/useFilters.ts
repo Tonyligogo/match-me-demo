@@ -52,8 +52,8 @@ export const useFilters = () => {
     ]
 
     const genderList = [
-        { value: 'male', icon: FaMale },
-        { value: 'female', icon: FaFemale },
+        { value: 'male', label:'Male' },
+        { value: 'female', label:'Female' },
     ]
 
     const handleAgeSelect = (value: number[]) => {

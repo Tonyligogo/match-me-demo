@@ -11,6 +11,12 @@ export default function UserDetailsForm() {
   } = useFormContext();
   return (
     <div className="space-y-4">
+      <div className="flex flex-col items-center gap-2 text-center">
+        <h1 className="text-2xl font-bold">Sign up</h1>
+        <p className="text-balance text-sm text-muted-foreground">
+          Enter your details to create an account
+        </p>
+      </div>
       <Input
         defaultValue={getValues("name")}
         label="Name"

@@ -23,5 +23,6 @@ export async function POST(request: Request) {
         return NextResponse.json(authResonse);
     } catch (error) {
         console.log('error', error);
+        return new Response('Internal Server Error', { status: 500 });
     }
 }

@@ -23,6 +23,7 @@ import UserDetailsForm from "./UserDetailsForm";
 import ProfileDetailsForm from "./ProfileDetailsForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const stepSchemas = [
   registerSchema,
@@ -86,23 +87,8 @@ export default function RegisterForm() {
   };
 
   return (
-    <Card className="w-3/5 mx-auto">
-      <CardHeader className="flex flex-col items-center justify-center">
-        <div className="flex flex-col gap-2 items-center text-default">
-          <div className="flex flex-row items-center gap-3">
-            <GiPadlock size={30} />
-            <h1 className="text-3xl font-semibold">
-              Register
-            </h1>
-          </div>
-          <p className="text-neutral-500">
-            Welcome to NextMatch
-          </p>
-        </div>
-      </CardHeader>
-      <CardBody>
         <FormProvider {...registerFormMethods}>
-          <form onSubmit={handleSubmit(onNext)}>
+          <form onSubmit={handleSubmit(onNext)} className="flex flex-col gap-6 w-full max-w-md">
             <div className="space-y-4">
               {getStepContent(activeStep)}
               {errors.root?.serverError && (
@@ -126,7 +112,7 @@ export default function RegisterForm() {
                   isLoading={isSubmitting}
                   isDisabled={!isValid}
                   fullWidth
-                  color="default"
+                  className="bg-primaryPurple text-white font-semibold text-lg"
                   type="submit"
                 >
                   {activeStep ===
@@ -135,10 +121,14 @@ export default function RegisterForm() {
                     : "Continue"}
                 </Button>
               </div>
+              <div className="text-center text-sm">
+                      Already have an account?{" "}
+                      <Link href="/login" className="underline underline-offset-4">
+                        Log in
+                      </Link>
+                    </div>
             </div>
           </form>
         </FormProvider>
-      </CardBody>
-    </Card>
   );
 }

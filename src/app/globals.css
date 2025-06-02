@@ -13,3 +13,8 @@
         shadow-sm min-w-[36px] w-9 h-9 text-sm;
   }
 }
+@layer utilities {
+  .primary-bg-gradient {
+    @apply bg-gradient-to-r from-pink-400 via-pink-500 to-primaryPurple;
+  }
+}

@@ -1,38 +1,35 @@
-import React from "react";
 import { getMembers } from "../actions/memberActions";
 import MemberCard from "./MemberCard";
-import { fetchCurrentUserLikeIds } from "../actions/likeActions";
+import { fetchMutualLikes } from "../actions/likeActions";
 import PaginationComponent from "@/components/PaginationComponent";
 import { GetMemberParams } from "@/types";
 import EmptyState from "@/components/EmptyState";
+import { unstable_cache } from "next/cache";
+import { getAuthUserId } from "../actions/authActions";
 
-export default async function MembersPage({
-  searchParams,
-}: {
-  searchParams: GetMemberParams;
-}) {
-  const { items: members, totalCount } =
-    await getMembers(searchParams);
+const getMatches = unstable_cache(
+    async (userId) => fetchMutualLikes(userId),
+    ['my-matches']
+  );
 
-  const likeIds = await fetchCurrentUserLikeIds();
+export default async function MembersPage() {
+  const userId = await getAuthUserId();
+  const matches = await getMatches(userId);
 
-  if (members.length === 0) return <EmptyState />;
+  if (matches.length === 0) return <EmptyState />;
 
   return (
-    <>
-      <div className="mt-10 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-8">
-        {members &&
-          members.map((member) => (
+    <div className="flex flex-grow h-full flex-col justify-between">
+      <div className="mt-10 px-4 grid h-[380px] md:h-[295px] grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+        {/* {matches &&
+          matches.map((match) => (
             <MemberCard
-              member={member}
-              key={member.id}
-              likeIds={likeIds}
+              member={match}
+              key={match.id}
+              likeIds={[]}
             />
-          ))}
+        ))} */}
       </div>
-      <PaginationComponent
-        totalCount={totalCount}
-      />
-    </>
+    </div>
   );
 }

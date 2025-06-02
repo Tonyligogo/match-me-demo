@@ -59,7 +59,12 @@ export async function registerUser(data: RegisterSchema): Promise<ActionResult<U
             return { status: 'error', error: validated.error.errors }
         }
 
-        const { name, email, password, gender, description, city, country, dateOfBirth, } = validated.data;
+        const { name, email, password, gender, zodiac, description, city, country, dateOfBirth, } = validated.data;
+
+        let profileCompleted = false;
+        if(gender && description && zodiac && city && country && dateOfBirth){
+            profileCompleted = true;
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -74,11 +79,14 @@ export async function registerUser(data: RegisterSchema): Promise<ActionResult<U
                 name,
                 email,
                 passwordHash: hashedPassword,
+                profileComplete: profileCompleted,
+                emailVerified: new Date(),
                 member: {
                     create: {
                         name,
                         description,
                         city,
+                        zodiac,
                         country,
                         dateOfBirth: new Date(dateOfBirth),
                         gender
@@ -87,16 +95,15 @@ export async function registerUser(data: RegisterSchema): Promise<ActionResult<U
             }
         })
 
-        const verificationToken = await generateToken(email, TokenType.VERIFICATION);
+        // const verificationToken = await generateToken(email, TokenType.VERIFICATION);
 
-        await sendVerificationEmail(verificationToken.email, verificationToken.token)
+        // await sendVerificationEmail(verificationToken.email, verificationToken.token)
 
         return { status: 'success', data: user }
     } catch (error) {
         console.log(error);
         return { status: 'error', error: 'Something went wrong' }
     }
-
 }
 
 export async function verifyEmail(token: string): Promise<ActionResult<string>> {
@@ -154,7 +161,16 @@ export async function generateResetPasswordEmail(email: string): Promise<ActionR
 }
 
 export async function getUserByEmail(email: string) {
-    return prisma.user.findUnique({ where: { email } });
+    return prisma.user.findUnique({ 
+        where: { email }, 
+        include: {
+            member: {
+                select: {
+                    zodiac: true,
+                },
+            },
+        },
+    });
 }
 
 export async function getUserById(id: string) {
@@ -210,8 +226,7 @@ export async function resetPassword(password: string, token: string | null): Pro
     }
 }
 
-export async function completeSocialLoginProfile(data: ProfileSchema):
-    Promise<ActionResult<string>> {
+export async function completeSocialLoginProfile(data: ProfileSchema): Promise<ActionResult<string>> {
 
     const session = await auth();
 
@@ -227,6 +242,7 @@ export async function completeSocialLoginProfile(data: ProfileSchema):
                         name: session.user.name as string,
                         image: session.user.image,
                         gender: data.gender,
+                        zodiac:data.zodiac,
                         dateOfBirth: new Date(data.dateOfBirth),
                         description: data.description,
                         city: data.city,

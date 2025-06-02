@@ -17,11 +17,14 @@ export default function MemberPhotoUpload() {
       result.info &&
       typeof result.info === "object"
     ) {
-      await addImage(
-        result.info.secure_url,
-        result.info.public_id
-      );
-      router.refresh();
+      try {
+        await addImage( result.info.secure_url, result.info.public_id );
+        router.refresh();
+      } catch (error) {
+        console.error("Error processing image upload:", error);
+        toast.error("Error processing image upload");
+        return;  
+      }
     } else {
       toast.error("Problem adding image");
     }

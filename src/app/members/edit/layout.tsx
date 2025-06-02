@@ -26,14 +26,14 @@ export default async function Layout({
   ];
 
   return (
-    <div className="grid grid-cols-12 gap-5 h-[80vh]">
-      <div className="col-span-3">
+    <div className="flex gap-5 h-[80vh]">
+      <div className="flex-1">
         <MemberSidebar
           member={member}
           navLinks={navLinks}
         />
       </div>
-      <div className="col-span-9">
+      <div className="flex-[4]">
         <Card className="w-full mt-10 h-[80vh]">
           {children}
         </Card>

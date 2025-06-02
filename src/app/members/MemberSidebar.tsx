@@ -29,13 +29,13 @@ export default function MemberSidebar({
   return (
     <Card className="w-full mt-10 items-center h-[80vh]">
       <Image
-        height={200}
-        width={200}
+        height={80}
+        width={80}
         src={member.image || "/images/user.png"}
         alt="User profile main image"
-        className="rounded-full mt-6 aspect-square object-cover"
+        className="rounded-full mt-4 aspect-square object-cover"
       />
-      <CardBody className="overflow-hidden">
+      <CardBody className="overflow-auto">
         <div className="flex flex-col items-center">
           <div className="flex">
             <div className="text-2xl">
@@ -46,12 +46,12 @@ export default function MemberSidebar({
               <PresenceDot member={member} />
             </div>
           </div>
-          <div className="text-sm text-neutral-500">
+          <div className="text-sm text-gray-500">
             {member.city}, {member.country}
           </div>
         </div>
         <Divider className="my-3" />
-        <nav className="flex flex-col p-4 ml-4 text-2xl gap-4">
+        <nav className="flex flex-col p-4 ml-4 text-xl gap-4">
           {navLinks.map((link) => (
             <Link
               href={link.href}
@@ -60,8 +60,8 @@ export default function MemberSidebar({
                                 ${
                                   pathname ===
                                   link.href
-                                    ? "text-default"
-                                    : "hover:text-default/50"
+                                    ? "text-black"
+                                    : "hover:text-gray-500"
                                 }`}
             >
               {link.name}

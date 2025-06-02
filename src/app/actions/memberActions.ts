@@ -14,6 +14,35 @@ function getAgeRange(ageRange: string): Date[] {
 
     return [minDob, maxDob];
 }
+type ZodiacSign = 
+  | 'Aries'
+  | 'Taurus'
+  | 'Gemini'
+  | 'Cancer'
+  | 'Leo'
+  | 'Virgo'
+  | 'Libra'
+  | 'Scorpio'
+  | 'Sagittarius'
+  | 'Capricorn'
+  | 'Aquarius'
+  | 'Pisces';
+
+// Update the zodiacCompatibility object to use the ZodiacSign type
+const zodiacCompatibility: Record<ZodiacSign, ZodiacSign[]> = {
+  Aries: ['Leo', 'Sagittarius', 'Gemini', 'Aquarius'],
+  Taurus: ['Virgo', 'Capricorn', 'Cancer', 'Pisces'],
+  Gemini: ['Aries', 'Leo', 'Libra', 'Aquarius'],
+  Cancer: ['Taurus', 'Virgo', 'Scorpio', 'Pisces'],
+  Leo: ['Aries', 'Sagittarius', 'Gemini', 'Libra'],
+  Virgo: ['Taurus', 'Capricorn', 'Cancer', 'Scorpio'],
+  Libra: ['Gemini', 'Aquarius', 'Leo', 'Sagittarius'],
+  Scorpio: ['Cancer', 'Pisces', 'Virgo', 'Capricorn'],
+  Sagittarius: ['Aries', 'Leo', 'Libra', 'Aquarius'],
+  Capricorn: ['Taurus', 'Virgo', 'Scorpio', 'Pisces'],
+  Aquarius: ['Gemini', 'Libra', 'Aries', 'Sagittarius'],
+  Pisces: ['Cancer', 'Scorpio', 'Taurus', 'Capricorn'],
+};
 
 export async function getMembers({
     ageRange = '18,100',
@@ -21,18 +50,26 @@ export async function getMembers({
     orderBy = 'updated',
     pageNumber = '1',
     pageSize = '12',
-    withPhoto = 'true'
+    withPhoto = 'true',
+    zodiacSign
 }: GetMemberParams): Promise<PaginatedResponse<Member>> {
     const userId = await getAuthUserId();
 
     const [minDob, maxDob] = getAgeRange(ageRange);
 
     const selectedGender = gender.split(',');
+    // Get compatible zodiac signs
+    const compatibleZodiacSigns = (zodiacSign && zodiacCompatibility[zodiacSign as ZodiacSign]) || [];
 
     const page = parseInt(pageNumber);
     const limit = parseInt(pageSize);
 
     const skip = (page - 1) * limit;
+
+    let zodiacFilter = {};
+if (compatibleZodiacSigns.length > 0) {
+    zodiacFilter = { zodiac: { in: compatibleZodiacSigns } };
+}
 
     try {
         const membersSelect = {
@@ -41,6 +78,7 @@ export async function getMembers({
                     { dateOfBirth: { gte: minDob } },
                     { dateOfBirth: { lte: maxDob } },
                     { gender: { in: selectedGender } },
+                    zodiacFilter,
                     ...(withPhoto === 'true' ? [{ image: { not: null } }] : [])
                 ],
                 NOT: {

@@ -1,6 +1,12 @@
-import LoadingComponent from "@/components/Loading";
-import React from "react";
+import { Spinner } from "@nextui-org/react";
 
 export default function Loading() {
-  return <LoadingComponent />;
+  return (
+    <div className="fixed inset-0 flex justify-center items-center">
+      <Spinner
+        label={"Loading..."}
+        color="default"
+      />
+    </div>
+  );
 }

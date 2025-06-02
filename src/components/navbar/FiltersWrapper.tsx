@@ -2,11 +2,11 @@
 
 import { usePathname } from "next/navigation";
 import Filters from "./Filters";
-import React from "react";
+import FilterWidget from "./FilterWidget";
 
 export default function FiltersWrapper() {
   const pathname = usePathname();
 
-  if (pathname === "/members") return <Filters />;
+  if (pathname === "/tony") return <FilterWidget />;
   else return null;
 }

@@ -14,6 +14,7 @@ export const profileSchema = z.object({
     description: z.string().min(1),
     city: z.string().min(1),
     country: z.string().min(1),
+    zodiac: z.string().min(1),
     dateOfBirth: z.string().min(1, {
         message: 'Date of birth is required'
     }).refine(dateString => {

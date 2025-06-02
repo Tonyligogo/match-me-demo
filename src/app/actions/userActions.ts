@@ -53,7 +53,8 @@ export async function addImage(url: string, publicId: string) {
                     create: [
                         {
                             url,
-                            publicId
+                            publicId,
+                            isApproved: true
                         }
                     ]
                 }

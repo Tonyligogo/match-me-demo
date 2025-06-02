@@ -34,7 +34,7 @@ export async function createMessage(recipientUserId: string, data: MessageSchema
         return { status: 'success', data: messageDto };
     } catch (error) {
         console.log(error);
-        return { status: 'error', error: 'Something went wrong' }
+        return { status: 'error', error: 'could not create your message' }
     }
 }
 

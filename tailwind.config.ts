@@ -11,7 +11,12 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        'dark-gradient': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)'
+        'dark-gradient': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
+        'pink-gradient': 'linear-gradient(to top, rgba(236,72,153,0.8), transparent)',
+      },
+      colors:{
+        primaryPurple: '#8d73ff',
+        primaryBlue:'#191250'
       }
     },
   },

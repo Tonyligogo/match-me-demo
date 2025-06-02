@@ -1,7 +1,7 @@
 "use client";
 
-import { getUnreadMessageCount } from "@/app/actions/messageActions";
-import useMessageStore from "@/hooks/useMessageStore";
+// import { getUnreadMessageCount } from "@/app/actions/messageActions";
+// import useMessageStore from "@/hooks/useMessageStore";
 import { useNotificationChannel } from "@/hooks/useNotificationChannel";
 import { usePresenceChannel } from "@/hooks/usePresenceChannel";
 import { NextUIProvider } from "@nextui-org/react";
@@ -24,28 +24,29 @@ export default function Providers({
   userId: string | null;
   profileComplete: boolean;
 }) {
-  const isUnreadCountSet = useRef(false);
-  const { updateUnreadCount } = useMessageStore(
-    (state) => ({
-      updateUnreadCount: state.updateUnreadCount,
-    })
-  );
+  // const isUnreadCountSet = useRef(false);
+  // const { updateUnreadCount } = useMessageStore(
+  //   (state) => ({
+  //     updateUnreadCount: state.updateUnreadCount,
+  //   })
+  // );
 
-  const setUnreadCount = useCallback(
-    (amount: number) => {
-      updateUnreadCount(amount);
-    },
-    [updateUnreadCount]
-  );
+  // const setUnreadCount = useCallback(
+  //   (amount: number) => {
+  //     updateUnreadCount(amount);
+  //   },
+  //   [updateUnreadCount]
+  // );
 
-  useEffect(() => {
-    if (!isUnreadCountSet.current && userId) {
-      getUnreadMessageCount().then((count) => {
-        setUnreadCount(count);
-      });
-      isUnreadCountSet.current = true;
-    }
-  }, [setUnreadCount, userId]);
+  // useEffect(() => {
+  //   if (!isUnreadCountSet.current && userId) {
+  //     getUnreadMessageCount().then((count) => {
+  //       setUnreadCount(count);
+  //     });
+  //     isUnreadCountSet.current = true;
+  //   }
+  // }, [setUnreadCount, userId]);
+  
   usePresenceChannel(userId, profileComplete);
   useNotificationChannel(userId, profileComplete);
   return (
