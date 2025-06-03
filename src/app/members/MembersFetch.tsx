@@ -4,6 +4,7 @@ import InfiniteScrollContainer from "@/components/InfiniteScrollContainer";
 import kyInstance from "@/lib/ky";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import MinglerCard from "./components/MinglerCard";
+import { FiLoader } from "react-icons/fi";
 
 export default function MembersFetch() {
   const {
@@ -29,12 +30,16 @@ export default function MembersFetch() {
   const posts = data?.pages.flatMap((page: { posts: any[] }) => page.posts) || [];
 
   if (status === "pending") {
-    return <p>Posts loading</p> ;
+    return (
+      <div className="h-[80vh] grid place-content-center">
+        <FiLoader className="animate-spin" /> ;
+      </div>
+    )
   }
 
   if (status === "success" && !posts.length && !hasNextPage) {
     return (
-      <p className="text-center text-muted-foreground">
+      <p className="text-center text-gray-500">
         No one has posted anything yet.
       </p>
     );
@@ -42,7 +47,7 @@ export default function MembersFetch() {
 
   if (status === "error") {
     return (
-      <p className="text-center text-destructive">
+      <p className="text-center text-gray-400">
         An error occurred while fetching members.
       </p>
     );

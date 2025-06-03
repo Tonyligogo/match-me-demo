@@ -35,7 +35,7 @@ export default function LoginForm() {
     setLoading(true);
     const result = await signInUser(data);
     if (result.status === "success") {
-      router.push("/members");
+      router.push("/my-profile");
       setLoading(false);
     } else {
       toast.error(result.error as string);

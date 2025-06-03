@@ -1,7 +1,7 @@
 "use client";
 
 import useMessageStore from "@/hooks/useMessageStore";
-import { Chip } from "@nextui-org/react";
+import { Chip, Input } from "@nextui-org/react";
 import clsx from "clsx";
 import {
   usePathname,
@@ -11,10 +11,12 @@ import {
 import React, { useState } from "react";
 import { GoInbox } from "react-icons/go";
 import { MdOutlineOutbox } from "react-icons/md";
+import { IoSearch } from "react-icons/io5";
 
 export default function MessageSidebar() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const [value, setValue] = React.useState("");
   const router = useRouter();
   const [selected, setSelected] =
     useState<string>(
@@ -48,9 +50,27 @@ export default function MessageSidebar() {
       unreadCount: state.unreadCount,
     })
   );
+  const handleSearch = ()=>{}
 
   return (
-    <div className="flex flex-col shadow-md rounded-lg cursor-pointer">
+    <div className="flex flex-col">
+      <Input
+      className="max-w-xs"
+      value={value} 
+      onValueChange={setValue}
+      endContent={
+        <button
+          aria-label="search"
+          className="focus:outline-none"
+          type="button"
+          onClick={handleSearch}
+        >
+          <IoSearch />
+        </button>
+      }
+      label="Search"
+      variant="bordered"
+    />
       {items.map(
         ({ key, icon: Icon, label, chip }) => (
           <div

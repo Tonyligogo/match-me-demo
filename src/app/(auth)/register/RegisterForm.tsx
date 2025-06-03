@@ -57,7 +57,7 @@ export default function RegisterForm() {
       getValues()
     );
     if (result.status === "success") {
-      router.push("/register/success");
+      router.push("/login");
     } else {
       handleFormServerErrors(result, setError);
     }
@@ -88,7 +88,7 @@ export default function RegisterForm() {
 
   return (
         <FormProvider {...registerFormMethods}>
-          <form onSubmit={handleSubmit(onNext)} className="flex flex-col gap-6 w-full max-w-md">
+          <form onSubmit={handleSubmit(onNext)} className="max-w-md mx-auto">
             <div className="space-y-4">
               {getStepContent(activeStep)}
               {errors.root?.serverError && (

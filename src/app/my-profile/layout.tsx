@@ -9,7 +9,7 @@ export default async function Layout({
 }) {
     const userId = await getAuthUserId();
   return (
-    <div className="flex-grow h-full overflow-hidden flex gap-10 md:px-4 pt-4 md:max-w-[90vw] mx-auto">
+    <div className="flex-grow h-full overflow-hidden flex gap-5 lg:gap-10 sm:px-4 pt-4 lg:max-w-[90vw] lg:mx-auto">
       <div className="w-full md:flex-[3] overflow-auto">
           {children}
       </div>

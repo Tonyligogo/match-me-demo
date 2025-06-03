@@ -38,6 +38,29 @@ export async function createMessage(recipientUserId: string, data: MessageSchema
     }
 }
 
+export async function getChats(){
+    const userId = await getAuthUserId();
+    const messages = await prisma.message.findMany({
+        where: {
+            OR: [
+                {
+                    senderId: userId,
+                    senderDeleted: false
+                },
+                {
+                    recipientId: userId,
+                    recipientDeleted: false
+                }
+            ]
+        },
+        orderBy: {
+            created: 'asc'
+        },
+        select: messageSelect
+    })
+
+}
+
 export async function getMessageThread(recipientId: string) {
     try {
         const userId = await getAuthUserId();
