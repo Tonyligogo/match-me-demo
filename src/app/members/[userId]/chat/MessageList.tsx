@@ -29,6 +29,9 @@ export default function MessageList({
   const [messages, setMessages] = useState(
     initialMessages.messages
   );
+  useEffect(()=>{
+    setMessages(initialMessages.messages)
+  },[initialMessages])
 
   const setReadCount = useRef(false);
 
@@ -100,7 +103,7 @@ export default function MessageList({
   }, [chatId]);
 
   return (
-    <div>
+    <div className="mr-4">
       {messages.length === 0 ? (
         "No messages to display"
       ) : (

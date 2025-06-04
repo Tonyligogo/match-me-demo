@@ -8,6 +8,7 @@ import {
 import { handleFormServerErrors } from "@/lib/util";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input } from "@nextui-org/react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   useParams,
   useRouter,
@@ -16,8 +17,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { HiPaperAirplane } from "react-icons/hi2";
 
-export default function ChatForm() {
+export default function ChatForm({selectedChatId}:{selectedChatId:string}) {
   const router = useRouter();
+  const queryClient = useQueryClient()
   const params = useParams<{ userId: string }>();
   const {
     register,
@@ -33,14 +35,14 @@ export default function ChatForm() {
     data: MessageSchema
   ) => {
     const result = await createMessage(
-      params.userId,
+      selectedChatId,
       data
     );
     if (result.status === "error") {
       handleFormServerErrors(result, setError);
     } else {
-      reset();
-      router.refresh();
+      reset()
+      queryClient.invalidateQueries({ queryKey: ['messages', selectedChatId] })
     }
   };
 

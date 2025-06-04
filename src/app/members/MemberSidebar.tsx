@@ -1,19 +1,12 @@
 "use client";
 
-import PresenceDot from "@/components/PresenceDot";
-import { calculateAge } from "@/lib/util";
 import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  Divider,
   Image,
 } from "@nextui-org/react";
 import { Member } from "@prisma/client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import { FiExternalLink } from "react-icons/fi";
 
 type Props = {
   member: Member;
@@ -27,59 +20,40 @@ export default function MemberSidebar({
   const pathname = usePathname();
 
   return (
-    <Card className="w-full mt-10 items-center h-[80vh]">
-      <Image
-        height={80}
-        width={80}
-        src={member.image || "/images/user.png"}
-        alt="User profile main image"
-        className="rounded-full mt-4 aspect-square object-cover"
-      />
-      <CardBody className="overflow-auto">
-        <div className="flex flex-col items-center">
-          <div className="flex">
-            <div className="text-2xl">
-              {member.name},{" "}
-              {calculateAge(member.dateOfBirth)}
-            </div>
-            <div>
-              <PresenceDot member={member} />
-            </div>
-          </div>
-          <div className="text-sm text-gray-500">
-            {member.city}, {member.country}
-          </div>
+    <div className='w-full'>
+        {/* user profile */}
+        <h1 className='text-primaryBlue text-2xl font-bold'>Your profile</h1>
+        <div className='relative mt-2 h-[240px]'>
+          <Image
+          height={240}
+          width={240}
+          src={member?.image || "/images/user.png"}
+          alt="User profile main image"
+          className="object-cover h-full rounded-xl"
+          />
         </div>
-        <Divider className="my-3" />
-        <nav className="flex flex-col p-4 ml-4 text-xl gap-4">
+          <p className='text-lg font-semibold text-primaryBlue'>{member?.name}</p>
+        <p className="text-primaryBlue">{member?.zodiac}</p>
+          <p className='text-sm text-primaryBlue'>{member?.city},{member?.country}</p>
+          <nav className="flex flex-col py-4 text-xl gap-4">
           {navLinks.map((link) => (
             <Link
               href={link.href}
               key={link.name}
-              className={`block rounded 
+              className={`flex justify-between underline text-primaryBlue text-[15px]  
                                 ${
                                   pathname ===
                                   link.href
-                                    ? "text-black"
-                                    : "hover:text-gray-500"
+                                    ? "text-pink-500"
+                                    : "hover:text-pink-500"
                                 }`}
             >
               {link.name}
+              <FiExternalLink size={16} />
             </Link>
           ))}
         </nav>
-      </CardBody>
-      <CardFooter>
-        <Button
-          as={Link}
-          href="/members"
-          fullWidth
-          color="default"
-          variant="bordered"
-        >
-          Go back
-        </Button>
-      </CardFooter>
-    </Card>
+      </div>
+    
   );
 }

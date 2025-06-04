@@ -2,31 +2,28 @@
 
 import { useState } from "react";
 import SearchInput from "./SearchInput";
+import Image from "next/image";
 
 interface ChatsProps {
-    onChatSelect: (chatId: string) => void; // Callback to parent
-    selectedChatId: string | null; // Currently selected ID from parent
-    // If you still need userId in Chats, define it here:
-    // userId: string;
+    onChatSelect: (chatId: string, userName:string) => void;
+    selectedChatId: string | null;
+    chats: ChatPartner[];
+  }
+  interface ChatPartner {
+    userId: string;    // User ID
+    name: string;      // User's name
+    image: string | null; // Optional avatar URL
   }
 
-interface Chat {
-    id: string;
-    name: string;
-    lastMessage: string;
-    timestamp:string
-}
+const Chats: React.FC<ChatsProps> = ({ onChatSelect, selectedChatId, chats}) => {
 
-const Chats: React.FC<ChatsProps> = ({ onChatSelect, selectedChatId}) => {
-
-    const [filteredChats, setFilteredChats] = useState<any[]>([]);
+    const [filteredChats, setFilteredChats] = useState<any[]>(chats);
 
     const handleSearch = (searchTerm: string): void => {
         if (searchTerm) {
             const lowercasedSearchTerm = searchTerm.toLowerCase();
-            const filtered = chats.filter((chat: Chat) =>
-              chat.name.toLowerCase().includes(lowercasedSearchTerm) ||
-              chat.lastMessage.toLowerCase().includes(lowercasedSearchTerm)
+            const filtered = chats.filter((chat: ChatPartner) =>
+              chat.name.toLowerCase().includes(lowercasedSearchTerm)
             );
             setFilteredChats(filtered);
           } else {
@@ -40,17 +37,18 @@ const Chats: React.FC<ChatsProps> = ({ onChatSelect, selectedChatId}) => {
         <div className="mt-4 flex-grow flex flex-col overflow-y-auto">
         {filteredChats.length > 0 ? (
           filteredChats.map(chat => (
-            <button onClick={()=>onChatSelect(chat.id)} key={chat.id} className={`p-2 border-b ${selectedChatId === chat.id ? 'bg-pink-500 text-white': ''}`}>
-              {chat.name} - {chat.lastMessage}
+            <button onClick={()=>onChatSelect(chat.userId, chat.name)} key={chat.userId} className={`p-2 border-b flex items-center gap-3 ${selectedChatId === chat.userId ? 'bg-pink-500 rounded-lg text-white': 'text-primaryBlue'}`}>
+              <Image
+              height={40}
+              width={40}
+                      src={chat.image || "/images/user.png"}
+                      alt="User avatar"
+                      className="rounded-full aspect-square object-cover"
+                    />
+                    <span>{chat.name}</span>
             </button>
           ))
-        ) : (
-            chats.map(chat => (
-                <button onClick={()=>onChatSelect(chat.id)} key={chat.id} className={`p-2 border-b ${selectedChatId === chat.id ? 'bg-pink-500 text-white': ''}`}>
-                  {chat.name} - {chat.lastMessage}
-                </button>
-              ))
-            )
+        ) : null
         }
       </div>
     </div>

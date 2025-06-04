@@ -78,7 +78,7 @@ if (compatibleZodiacSigns.length > 0) {
                     { dateOfBirth: { gte: minDob } },
                     { dateOfBirth: { lte: maxDob } },
                     { gender: { in: selectedGender } },
-                    zodiacFilter,
+                    // zodiacFilter,
                     ...(withPhoto === 'true' ? [{ image: { not: null } }] : [])
                 ],
                 NOT: {

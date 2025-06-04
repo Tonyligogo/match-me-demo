@@ -8,6 +8,12 @@ import { mapMessageToMessageDto } from '@/lib/mappings';
 import { pusherServer } from '@/lib/pusher';
 import { createChatId } from '@/lib/util';
 
+interface ChatPartner {
+    userId: string;
+    name: string;
+    image: string | null;
+  }
+
 export async function createMessage(recipientUserId: string, data: MessageSchema): Promise<ActionResult<MessageDto>> {
     try {
         const userId = await getAuthUserId();
@@ -38,28 +44,53 @@ export async function createMessage(recipientUserId: string, data: MessageSchema
     }
 }
 
-export async function getChats(){
+export async function getChats() {
     const userId = await getAuthUserId();
+  
+    if (!userId) {
+      // Handle case where user is not authenticated
+      console.error("getChats: User not authenticated.");
+      return []; // Or throw an error
+    }
+  
     const messages = await prisma.message.findMany({
-        where: {
-            OR: [
-                {
-                    senderId: userId,
-                    senderDeleted: false
-                },
-                {
-                    recipientId: userId,
-                    recipientDeleted: false
-                }
-            ]
-        },
-        orderBy: {
-            created: 'asc'
-        },
-        select: messageSelect
-    })
-
-}
+      where: {
+        OR: [
+          {
+            senderId: userId,
+            senderDeleted: false
+          },
+          {
+            recipientId: userId,
+            recipientDeleted: false
+          }
+        ]
+      },
+      orderBy: {
+        created: 'asc' // Order by creation time to potentially get the latest message for each chat
+      },
+      select: messageSelect
+    });
+  
+    // --- Logic to remove duplicate userIds and get unique chat partners ---
+    const uniqueChatPartnersMap = new Map<string, ChatPartner>();
+  
+    messages.forEach(message => {
+      // Identify the 'other' user in the conversation
+      const otherUser = message.sender?.userId === userId ? message.recipient : message.sender;
+  
+      // Add the other user to the map, using their userId as the key
+      // Map automatically handles uniqueness: if userId already exists, it updates the entry.
+      if (otherUser) {
+          uniqueChatPartnersMap.set(otherUser.userId, otherUser);
+      }
+    });
+  
+    // Convert the Map values (unique ChatPartner objects) to an array
+    const chatPartners = Array.from(uniqueChatPartnersMap.values());
+  
+    return chatPartners;
+  }
 
 export async function getMessageThread(recipientId: string) {
     try {

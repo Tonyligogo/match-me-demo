@@ -40,16 +40,16 @@ export default function MessageBox({
   );
 
   const messageContentClasses = clsx(
-    "flex flex-col w-[50%] px-2 py-1",
+    "flex flex-col w-[65%] px-2 py-1",
     {
-      "rounded-l-xl rounded-tr-xl text-white bg-blue-100":
+      "rounded-l-2xl rounded-tr-2xl text-white bg-primaryPurple":
         isCurrentUserSender,
-      "rounded-r-xl rounded-tl-xl border-gray-200 bg-green-100":
+      "rounded-r-2xl rounded-tl-2xl text-gray-900 border-gray-200 bg-white":
         !isCurrentUserSender,
     }
   );
 
-  const renderMessageHeader = () => (
+  const renderMessageFooter = () => (
     <div
       className={clsx(
         "flex items-center w-full",
@@ -58,19 +58,8 @@ export default function MessageBox({
         }
       )}
     >
-      {message.dateRead &&
-      message.recipientId !== currentUserId ? (
-        <span className="text-xs text-black text-italic">
-          (Read {timeAgo(message.dateRead)})
-        </span>
-      ) : (
-        <div></div>
-      )}
       <div className="flex">
-        <span className="text-sm font-semibold text-gray-900">
-          {message.senderName}
-        </span>
-        <span className="text-sm text-gray-500 ml-2">
+        <span className={`text-xs ${isCurrentUserSender ? 'text-white' : 'text-gray-500'} ml-2`}>
           {message.created}
         </span>
       </div>
@@ -80,10 +69,10 @@ export default function MessageBox({
   const renderMessageContent = () => {
     return (
       <div className={messageContentClasses}>
-        {renderMessageHeader()}
-        <p className="text-sm py-3 text-gray-900">
+        <p className="text-sm py-3 ">
           {message.text}
         </p>
+        {renderMessageFooter()}
       </div>
     );
   };

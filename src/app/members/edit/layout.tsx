@@ -26,7 +26,7 @@ export default async function Layout({
   ];
 
   return (
-    <div className="flex gap-5 h-[80vh]">
+    <div className="flex flex-col md:flex-row px-4 pt-6 gap-5 md:h-[80vh]">
       <div className="flex-1">
         <MemberSidebar
           member={member}
@@ -34,7 +34,7 @@ export default async function Layout({
         />
       </div>
       <div className="flex-[4]">
-        <Card className="w-full mt-10 h-[80vh]">
+        <Card className="w-full md:h-[80vh]">
           {children}
         </Card>
       </div>

@@ -4,7 +4,7 @@ import InfiniteScrollContainer from "@/components/InfiniteScrollContainer";
 import kyInstance from "@/lib/ky";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import MinglerCard from "./components/MinglerCard";
-import { FiLoader } from "react-icons/fi";
+import { LuLoader } from "react-icons/lu";
 
 export default function MembersFetch() {
   const {
@@ -32,7 +32,7 @@ export default function MembersFetch() {
   if (status === "pending") {
     return (
       <div className="h-[80vh] grid place-content-center">
-        <FiLoader className="animate-spin" /> ;
+        <LuLoader className="animate-spin" /> ;
       </div>
     )
   }
