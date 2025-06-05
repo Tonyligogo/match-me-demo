@@ -79,7 +79,7 @@ if (compatibleZodiacSigns.length > 0) {
                     { dateOfBirth: { lte: maxDob } },
                     { gender: { in: selectedGender } },
                     // zodiacFilter,
-                    ...(withPhoto === 'true' ? [{ image: { not: null } }] : [])
+                    // ...(withPhoto === 'true' ? [{ image: { not: null } }] : [])
                 ],
                 NOT: {
                     userId

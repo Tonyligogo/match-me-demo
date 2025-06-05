@@ -11,6 +11,7 @@ import DeleteButton from "./DeleteButton";
 import MemberImage from "./MemberImage";
 import StarButton from "./StarButton";
 import { toast } from "react-toastify";
+import { IoInformationCircleOutline } from "react-icons/io5";
 
 type Props = {
   photos: Photo[] | null;
@@ -68,7 +69,12 @@ export default function MemberPhotos({
   };
 
   return (
-    <div className="grid grid-cols-5 gap-3 p-5">
+    <div>
+      <div className="flex mt-2 gap-2 items-center text-primaryBlue bg-[#f8faff] rounded-lg p-2">
+      <IoInformationCircleOutline />
+      <p className="text-sm">A starred photo is your default photo</p>
+      </div>
+    <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 py-5">
       {photos &&
         photos.map((photo) => (
           <div
@@ -109,6 +115,7 @@ export default function MemberPhotos({
             )}
           </div>
         ))}
+    </div>
     </div>
   );
 }

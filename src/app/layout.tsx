@@ -31,7 +31,7 @@ export default async function RootLayout({
         >
           <ReactQueryProvider>
           <main className="flex flex-col h-[100svh]">
-            <nav className="h-[60px] fixed w-full z-50 flex-shrink-0">
+            <nav className="h-[60px] fixed w-full z-[100] flex-shrink-0">
           <TopNav />
             </nav>
           <div className="flex-grow relative bg-[#f8faff] pt-[60px] pb-[80px] md:pb-0">

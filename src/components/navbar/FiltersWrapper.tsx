@@ -7,6 +7,6 @@ import FilterWidget from "./FilterWidget";
 export default function FiltersWrapper() {
   const pathname = usePathname();
 
-  if (pathname === "/tony") return <FilterWidget />;
+  if (pathname === "/do-not-use") return <FilterWidget />;
   else return null;
 }

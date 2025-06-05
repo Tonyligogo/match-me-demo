@@ -37,7 +37,7 @@ export default function MemberCard({
       href={`/members/${member.userId}`}
       isPressable
     >
-      <img src={member.image || "/images/user.png"} alt={member.name} className="object-cover h-[380px] md:h-[295px] w-full" />
+      <img src={member.image || "/images/user.png"} alt={member.name} className="object-cover object-top h-[380px] md:h-[295px] w-full" />
       <div onClick={preventLinkAction}>
         <div className="absolute top-3 right-3 z-50">
           <LikeButton

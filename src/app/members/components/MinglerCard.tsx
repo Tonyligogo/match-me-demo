@@ -40,7 +40,7 @@ export default function MinglerCard({
       isPressable
       className="flex-1"
     >
-      <img src={member.image || "/images/user.png"} alt={member.name} className="object-cover h-[400px] w-full" />
+      <img src={member.image || "/images/user.png"} alt={member.name} className="object-cover object-top h-[400px] w-full" />
       <div onClick={preventLinkAction}>
         <div className="md:hidden absolute top-3 right-3 z-50">
           <LikeButton

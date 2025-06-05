@@ -65,27 +65,6 @@ export default function MembersFetch() {
           likeIds={[]}
       />
       ))}
-      {posts.map((member) => (
-        <MinglerCard
-          key={member.id}
-          member={member}
-          likeIds={[]}
-      />
-      ))}
-      {posts.map((member) => (
-        <MinglerCard
-          key={member.id}
-          member={member}
-          likeIds={[]}
-      />
-      ))}
-      {posts.map((member) => (
-        <MinglerCard
-          key={member.id}
-          member={member}
-          likeIds={[]}
-      />
-      ))}
       {isFetchingNextPage && <p>Loading..</p>}
     </InfiniteScrollContainer>
   );

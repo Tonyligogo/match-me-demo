@@ -29,7 +29,7 @@ export default function MemberSidebar({
           width={240}
           src={member?.image || "/images/user.png"}
           alt="User profile main image"
-          className="object-cover h-full rounded-xl"
+          className="object-cover object-top h-full rounded-xl"
           />
         </div>
           <p className='text-lg font-semibold text-primaryBlue'>{member?.name}</p>

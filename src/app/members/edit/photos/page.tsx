@@ -17,7 +17,7 @@ export default async function PhotosPage() {
 
   return (
     <CardInnerWrapper
-      header="Edit Profile"
+      header="Edit Photos"
       body={
         <>
           <MemberPhotoUpload />
