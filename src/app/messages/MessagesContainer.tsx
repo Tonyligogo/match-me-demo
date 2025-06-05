@@ -2,8 +2,8 @@
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { getMessageThread } from "../actions/messageActions";
 import { createChatId } from "@/lib/util";
-import MessageList from "../members/[userId]/chat/MessageList";
-import ChatForm from "../members/[userId]/chat/ChatForm";
+import MessageList from "./MessageList";
+import ChatForm from "./ChatForm";
 import { useQuery } from "@tanstack/react-query";
 import { LuLoader } from "react-icons/lu";
 
